@@ -1,6 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { Customer } from './interfaces/customer.interface';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Customer } from './customer.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CustomersService {
+  constructor(
+    @InjectRepository(Customer)
+    private readonly customerRepository: Repository<Customer>,
+  ) {}
+
+  findAll(): Promise<Customer[]> {
+    return this.customerRepository.find();
+  }
 }

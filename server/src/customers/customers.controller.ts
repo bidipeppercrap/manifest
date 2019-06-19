@@ -10,9 +10,12 @@ import {
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { Roles } from 'src/roles.decorator';
 import { FindOneParams } from 'src/find-one.params';
+import { CustomersService } from './customers.service';
 
 @Controller('customers')
 export class CustomersController {
+  constructor(private readonly customersService: CustomersService) {}
+
   @Post()
   @Roles('root')
   async create(
@@ -22,9 +25,8 @@ export class CustomersController {
   }
 
   @Get()
-  @Roles()
-  findAll(): string {
-    return 'This should return a list of customers';
+  findAll() {
+    return this.customersService.findAll();
   }
 
   @Get(':id')

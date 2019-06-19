@@ -7,9 +7,10 @@ import { RolesGuard } from './roles.guard';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ValidationPipe } from './validation.pipe';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [CustomersModule, AuthModule, UsersModule],
+  imports: [TypeOrmModule.forRoot(), CustomersModule, AuthModule, UsersModule],
   controllers: [AppController],
   providers: [
     AppService,
