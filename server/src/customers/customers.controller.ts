@@ -6,18 +6,17 @@ import {
   Body,
   Put,
   Delete,
-  UsePipes,
 } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { Roles } from 'src/roles.decorator';
-import { ValidationPipe } from 'src/validation.pipe';
+import { FindOneParams } from 'src/find-one.params';
 
 @Controller('customers')
 export class CustomersController {
   @Post()
   @Roles('root')
   async create(
-    @Body(new ValidationPipe()) createCustomerDto: CreateCustomerDto,
+    @Body() createCustomerDto: CreateCustomerDto,
   ): Promise<CreateCustomerDto> {
     return createCustomerDto;
   }
@@ -29,20 +28,20 @@ export class CustomersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): string {
+  findOne(@Param() { id }: FindOneParams): string {
     return `This should return a customer with an Id of: ${id}`;
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param() { id }: FindOneParams,
     @Body() updateCustomerDto: CreateCustomerDto,
   ): Promise<CreateCustomerDto> {
     return updateCustomerDto;
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<CreateCustomerDto> {
+  async remove(@Param() { id }: FindOneParams): Promise<CreateCustomerDto> {
     return null;
   }
 }
