@@ -10,12 +10,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  signIn(payload: JwtPayload): string {
-    const user = this.validateUser(payload);
+  async signIn(payload: JwtPayload): Promise<string> {
+    const user = await this.validateUser(payload);
     return this.jwtService.sign(user);
   }
 
-  validateUser(payload: JwtPayload) {
+  async validateUser(payload: JwtPayload) {
     return this.usersService.validate(payload);
   }
 

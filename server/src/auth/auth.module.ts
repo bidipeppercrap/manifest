@@ -6,11 +6,15 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
 import { JwtStrategy } from './jwt.strategy';
 import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import env from 'env';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({ secret: 'mantap' }),
+    JwtModule.register({ secret: env.keyJWT }),
     UsersModule,
   ],
   providers: [AuthService, JwtStrategy, UsersService],
