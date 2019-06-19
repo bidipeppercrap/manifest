@@ -21,20 +21,23 @@ export class CustomersController {
   async create(
     @Body() createCustomerDto: CreateCustomerDto,
   ): Promise<CreateCustomerDto> {
-    return createCustomerDto;
+    return this.customersService.create(createCustomerDto);
   }
 
   @Get()
+  @Roles('root', 'debt_collector')
   findAll() {
     return this.customersService.findAll();
   }
 
   @Get(':id')
+  @Roles('root', 'debt_collector')
   findOne(@Param() { id }: FindOneParams): string {
     return `This should return a customer with an Id of: ${id}`;
   }
 
   @Put(':id')
+  @Roles('root')
   async update(
     @Param() { id }: FindOneParams,
     @Body() updateCustomerDto: CreateCustomerDto,
@@ -43,6 +46,7 @@ export class CustomersController {
   }
 
   @Delete(':id')
+  @Roles('root')
   async remove(@Param() { id }: FindOneParams): Promise<CreateCustomerDto> {
     return null;
   }
