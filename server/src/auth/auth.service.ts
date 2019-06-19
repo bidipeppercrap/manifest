@@ -1,5 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { UsersService } from 'src/users/users.service';
 
@@ -20,6 +20,10 @@ export class AuthService {
   }
 
   auth(token: string) {
-    return this.jwtService.verify(token);
+    try {
+      return this.jwtService.verify(token);
+    } catch (error) {
+      throw new UnauthorizedException(error);
+    }
   }
 }

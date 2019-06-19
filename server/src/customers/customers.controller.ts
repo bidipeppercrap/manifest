@@ -9,17 +9,15 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
-import { JoiValidationPipe } from 'src/joi-validation.pipe';
 import { Roles } from 'src/roles.decorator';
-import createCustomerSchema from './schema/create-customer.schema';
+import { ValidationPipe } from 'src/validation.pipe';
 
 @Controller('customers')
 export class CustomersController {
   @Post()
   @Roles('root')
-  @UsePipes(new JoiValidationPipe(createCustomerSchema))
   async create(
-    @Body() createCustomerDto: CreateCustomerDto,
+    @Body(new ValidationPipe()) createCustomerDto: CreateCustomerDto,
   ): Promise<CreateCustomerDto> {
     return createCustomerDto;
   }
