@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Body } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from './customer.entity';
 import { Repository } from 'typeorm';
@@ -13,6 +13,27 @@ export class CustomersService {
 
   findAll(): Promise<Customer[]> {
     return this.customerRepository.find();
+  }
+
+  async findOne(id: string): Promise<Customer> {
+    try {
+      const customer = await this.customerRepository.findOneOrFail(id);
+      return customer;
+    } catch (error) {
+      throw new BadRequestException('Invalid id');
+    }
+  }
+
+  async update(id: string, customer: CreateCustomerDto) {
+    try {
+      await this.findOne(id);
+      await this.customerRepository.update(id, customer);
+
+      const result = await this.findOne(id);
+      return result;
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   create(customer: CreateCustomerDto): Promise<Customer> {

@@ -32,8 +32,8 @@ export class CustomersController {
 
   @Get(':id')
   @Roles('root', 'debt_collector')
-  findOne(@Param() { id }: FindOneParams): string {
-    return `This should return a customer with an Id of: ${id}`;
+  findOne(@Param() { id }: FindOneParams) {
+    return this.customersService.findOne(id);
   }
 
   @Put(':id')
@@ -42,7 +42,7 @@ export class CustomersController {
     @Param() { id }: FindOneParams,
     @Body() updateCustomerDto: CreateCustomerDto,
   ): Promise<CreateCustomerDto> {
-    return updateCustomerDto;
+    return this.customersService.update(id, updateCustomerDto);
   }
 
   @Delete(':id')
