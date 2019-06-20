@@ -9,9 +9,11 @@ import { UsersModule } from './users/users.module';
 import { ValidationPipe } from './validation.pipe';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpExceptionFilter } from './http-exception.filter';
+import { DriversModule } from './drivers/drivers.module';
+import { TrucksModule } from './trucks/trucks.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), CustomersModule, AuthModule, UsersModule],
+  imports: [TypeOrmModule.forRoot(), CustomersModule, AuthModule, UsersModule, DriversModule, TrucksModule],
   controllers: [AppController],
   providers: [
     AppService,
