@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -45,6 +49,14 @@ export class UsersService {
 
   async create(user: CreateUserDto) {
     user.password = await this.cryptr.encrypt(user.password);
+
+    const validation = await this.userRepository.findAndCount({
+      email: user.email,
+    });
+    if (validation[1]) {
+      throw new BadRequestException('Email already registered');
+    }
+
     await this.userRepository.save(user);
 
     return user;
