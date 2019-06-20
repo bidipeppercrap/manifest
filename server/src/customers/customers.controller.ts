@@ -48,6 +48,6 @@ export class CustomersController {
   @Delete(':id')
   @Roles('root')
   async remove(@Param() { id }: FindOneParams): Promise<CreateCustomerDto> {
-    return null;
+    return this.customersService.remove(id);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from './customer.entity';
 import { Repository } from 'typeorm';
@@ -17,5 +17,15 @@ export class CustomersService {
 
   create(customer: CreateCustomerDto): Promise<Customer> {
     return this.customerRepository.save(customer);
+  }
+
+  async remove(id: string): Promise<Customer> {
+    try {
+      const customer = await this.customerRepository.findOneOrFail(id);
+      await this.customerRepository.delete(id);
+      return customer;
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 }
