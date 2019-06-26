@@ -11,9 +11,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpExceptionFilter } from './http-exception.filter';
 import { DriversModule } from './drivers/drivers.module';
 import { TrucksModule } from './trucks/trucks.module';
+import { ShipmentsModule } from './shipments/shipments.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), CustomersModule, AuthModule, UsersModule, DriversModule, TrucksModule],
+  imports: [TypeOrmModule.forRoot(), CustomersModule, AuthModule, UsersModule, DriversModule, TrucksModule, ShipmentsModule],
   controllers: [AppController],
   providers: [
     AppService,
