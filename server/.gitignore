@@ -5,6 +5,7 @@ instance/
 
 .pytest_cache/
 .coverage
+.vscode/
 
 dist/
 build/
