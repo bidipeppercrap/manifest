@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Shipment } from './shipment.entity';
 import { Repository } from 'typeorm';
 import { ShipmentDto } from './shipment.dto';
+import { Between } from 'typeorm';
 
 @Injectable()
 export class ShipmentsService {
@@ -15,16 +16,22 @@ export class ShipmentsService {
     private readonly shipmentRepository: Repository<Shipment>,
   ) {}
 
-  find(limit: number, page: number) {
+  find(limit: number, page: number, after?: string, before?: string) {
     try {
       limit = !limit ? 10 : limit;
       page = !page ? 1 : page;
       const skip = page - 1 * limit;
+      after = !after ? '0000-00-00' : after;
+      before = !before ? '9999-01-01' : before;
+      const date = Between(after, before);
 
       return this.shipmentRepository.find({
-        relations: ['manifests'],
+        relations: ['truck'],
         take: limit,
         skip,
+        where: {
+          date,
+        },
       });
     } catch (error) {
       throw new InternalServerErrorException();

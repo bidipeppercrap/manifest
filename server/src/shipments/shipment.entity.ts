@@ -1,6 +1,7 @@
-import { PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, ManyToOne, Entity } from 'typeorm';
 import { Truck } from 'src/trucks/truck.entity';
 
+@Entity()
 export class Shipment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -11,6 +12,6 @@ export class Shipment {
   @Column('text')
   note: string;
 
-  @ManyToMany(type => Truck, truck => truck.shipments)
+  @ManyToOne(type => Truck, truck => truck.shipments)
   truck: Truck;
 }
